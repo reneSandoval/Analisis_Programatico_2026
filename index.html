@@ -708,5 +708,129 @@ Graph.linkDirectionalParticles(0);
   <div class="ap-footer">Análisis basado en programas de gobierno oficiales · Colombia 2026 · Fajardo 163 propuestas · Cepeda 71 · Claudia López 51</div>
 </div>
 
+<script>
+const AUSENCIAS_DATA = [
+  { name:"Deuda externa / FMI",              cat:"economia",  shock:"💸", f:0,c:0,cl:0, why:"La deuda pública supera el 55% del PIB. Ningún candidato habla de negociación o condiciones con el FMI." },
+  { name:"TLC y libre comercio",             cat:"economia",  shock:"🤝", f:0,c:0,cl:0, why:"Más de 15 tratados vigentes. Ningún programa los evalúa ni propone renegociar." },
+  { name:"Criptomonedas y activos digitales",cat:"economia",  shock:"₿",  f:0,c:0,cl:0, why:"Colombia es el 2do país de LatAm en adopción cripto. Ningún candidato tiene postura regulatoria." },
+  { name:"Envejecimiento demográfico",       cat:"social",    shock:"👴", f:0,c:0,cl:0, why:"En 20 años, 1 de 4 colombianos tendrá más de 60. Nadie lo menciona como reto estructural." },
+  { name:"Nutrición y obesidad",             cat:"social",    shock:"🍔", f:0,c:0,cl:0, why:"La obesidad afecta al 37% de adultos colombianos. El etiquetado y ultraprocesados están ausentes." },
+  { name:"Páramos y fuentes de agua",        cat:"ambiente",  shock:"🏔️", f:0,c:0,cl:0, why:"Colombia alberga el 50% de los páramos del mundo. Son la fuente de agua de millones. Nadie los nombra." },
+  { name:"Océanos y pesca industrial",       cat:"ambiente",  shock:"🌊", f:0,c:0,cl:0, why:"Dos océanos y una Zona Económica Exclusiva enorme. La soberanía marítima es invisible." },
+  { name:"Gran minería a cielo abierto",     cat:"ambiente",  shock:"⛏️", f:0,c:0,cl:0, why:"Proyectos como El Cerrejón generan conflictos enormes. Nadie propone una política minera integral." },
+  { name:"Compromisos COP / Acuerdo de París",cat:"ambiente", shock:"🌍", f:0,c:0,cl:0, why:"Colombia se comprometió a reducir emisiones 51% para 2030. Ningún programa describe cómo." },
+  { name:"Sistema electoral",                cat:"gobernanza",shock:"🗳️", f:0,c:0,cl:0, why:"Colombia tiene denuncias recurrentes de fraude. Ningún candidato propone reforma electoral." },
+  { name:"Ciberseguridad nacional",          cat:"gobernanza",shock:"🔐", f:0,c:0,cl:0, why:"Hospitales y entidades del Estado han sido hackeadas. Nadie tiene agenda de ciberseguridad." },
+  { name:"Regulación de IA",                 cat:"gobernanza",shock:"🤖", f:0,c:0,cl:0, why:"La UE ya tiene AI Act. Colombia no tiene regulación y ningún candidato la propone." },
+  { name:"Relaciones con EE.UU.",            cat:"global",    shock:"🇺🇸", f:0,c:0,cl:0, why:"EE.UU. es el principal socio comercial. La relación bilateral brilla por su ausencia." },
+  { name:"Multilateralismo / ONU",           cat:"global",    shock:"🌐", f:0,c:0,cl:0, why:"El papel de Colombia en la ONU y la CELAC no aparece en ningún programa." },
+  { name:"Vivienda en zonas de riesgo",      cat:"social",    shock:"🏚️", f:0,c:0,cl:0, why:"Millones viven en zonas de deslizamiento. La reubicación preventiva no es política de nadie." },
+  { name:"Transporte público urbano",        cat:"gobernanza",shock:"🚇", f:0,c:0,cl:0, why:"Los sistemas de transporte masivo tienen problemas crónicos. Nadie tiene política al respecto." },
+  { name:"Brecha digital rural",             cat:"gobernanza",shock:"📡", f:0,c:0,cl:0, why:"70% de municipios rurales sin conectividad real. Todos hablan de digitalización sin infraestructura." },
+  { name:"Drogas recreativas (urbano)",      cat:"social",    shock:"💊", f:0,c:0,cl:0, why:"El consumo urbano de drogas es una crisis de salud pública sin política de reducción de daño." },
+  { name:"Patrimonio arqueológico",          cat:"social",    shock:"🏺", f:0,c:0,cl:0, why:"La huaquería destruye yacimientos únicos. El ICANH está desfinanciado. Nadie lo menciona." },
+  { name:"Idiomas nativos",                  cat:"social",    shock:"🗣️", f:0,c:0,cl:0, why:"65 lenguas nativas en riesgo de extinción. La revitalización lingüística no es agenda de nadie." },
+  { name:"Agua subterránea / acuíferos",     cat:"ambiente",  shock:"💧", f:0,c:0,cl:0, why:"Los acuíferos son reserva estratégica. Su sobreexplotación y contaminación no son agenda." },
+  { name:"Mercurio en minería ilegal",       cat:"ambiente",  shock:"☠️", f:1,c:1,cl:0, why:"Colombia es el mayor emisor per cápita de mercurio por minería ilegal de oro." },
+];
+
+const SOLO_DATA = {
+  f: [
+    { topic:"Deporte de alto rendimiento", note:"Solo Fajardo tiene propuestas para el ciclo olímpico y la transición de talentos.", tag:"Marca país" },
+    { topic:"Industria manufacturera",     note:"Solo Fajardo menciona el sector industrial como motor de empleo explícitamente.", tag:"Economía productiva" },
+    { topic:"Comunidad LGBTIQ+",           note:"Solo Fajardo tiene propuestas de no discriminación y centros de atención específicos.", tag:"Derechos civiles" },
+    { topic:"Personas con discapacidad",   note:"Solo Fajardo tiene cuotas, accesibilidad universal y sistema de apoyo integral.", tag:"Inclusión" },
+    { topic:"Propiedad intelectual",       note:"Solo Fajardo menciona derechos de autor en el contexto de la economía creativa.", tag:"Economía creativa" },
+    { topic:"Violencia intrafamiliar",     note:"Solo Fajardo la menciona como categoría separada de la violencia de género.", tag:"Seguridad doméstica" },
+  ],
+  c: [
+    { topic:"Reforma constitucional",         note:"Solo Cepeda abre la puerta a reformas constitucionales desde una Mesa de Diálogo Nacional.", tag:"Arquitectura política" },
+    { topic:"Reforma al Congreso",            note:"Solo Cepeda menciona la necesidad de reforma política institucional al legislativo.", tag:"Instituciones" },
+    { topic:"Bienestar animal",               note:"Solo Cepeda reconoce constitucionalmente a los animales como sujetos de derechos.", tag:"Justicia animal" },
+    { topic:"Reconversión sectores taurinos", note:"Solo Cepeda tiene política de transición para sectores con espectáculos con animales.", tag:"Transición cultural" },
+  ],
+  cl: [
+    { topic:"Venezuela (política bilateral)",    note:"Solo Claudia tiene postura explícita sobre el régimen venezolano y la política bilateral.", tag:"Política exterior" },
+    { topic:"Economía informal / rebusque",      note:"Solo Claudia menciona el rebusque y los micronegocios de autoempleo como punto de partida.", tag:"Economía popular" },
+    { topic:"Crimen organizado transnacional",   note:"Solo Claudia menciona cooperación con organismos internacionales para perseguir mafias.", tag:"Seguridad" },
+    { topic:"Burocracia / tamaño del Estado",    note:"Solo Claudia propone reducir el aparato burocrático y eliminar intermediaciones.", tag:"Eficiencia estatal" },
+  ]
+};
+
+let ausenciasRendered = false;
+
+function renderAusencias() {
+  if (ausenciasRendered) return;
+  ausenciasRendered = true;
+
+  const grid = document.getElementById("ap-grid");
+
+  function makeCard(s, type) {
+    const statusText = type==="nadie" ? "Ninguno lo menciona" : "Solo dos lo mencionan";
+    const statusColor = type==="nadie" ? "#FF2D55" : "#34C759";
+    const div = document.createElement("div");
+    div.className = "ap-card " + type;
+    div.dataset.cat = s.cat;
+    div.innerHTML =
+      '<div class="ap-card-shock">' + s.shock + '</div>' +
+      '<div class="ap-card-status" style="color:' + statusColor + '">' + statusText + '</div>' +
+      '<div class="ap-card-name">' + s.name + '</div>' +
+      '<div class="ap-card-why">' + s.why + '</div>' +
+      '<div class="ap-dots">' +
+        '<div class="ap-dot ' + (s.f>0?'f':'off') + '"></div>' +
+        '<div class="ap-dot ' + (s.c>0?'c':'off') + '"></div>' +
+        '<div class="ap-dot ' + (s.cl>0?'cl':'off') + '"></div>' +
+      '</div>';
+    return div;
+  }
+
+  const allCards = [];
+
+  AUSENCIAS_DATA.filter(s => s.f===0 && s.c===0 && s.cl===0).forEach(s => {
+    const card = makeCard(s, "nadie");
+    allCards.push({ el:card, cat:s.cat });
+    grid.appendChild(card);
+  });
+
+  AUSENCIAS_DATA.filter(s => {
+    const zeros = [s.f,s.c,s.cl].filter(v=>v===0).length;
+    return zeros === 1;
+  }).forEach(s => {
+    const card = makeCard(s, "dos");
+    allCards.push({ el:card, cat:s.cat });
+    grid.appendChild(card);
+  });
+
+  // Tabs
+  document.querySelectorAll(".ap-tab").forEach(tab => {
+    tab.addEventListener("click", () => {
+      document.querySelectorAll(".ap-tab").forEach(t => t.classList.remove("active"));
+      tab.classList.add("active");
+      const cat = tab.dataset.cat;
+      allCards.forEach(({el, cat:c}) => {
+        el.style.display = (cat==="all" || c===cat) ? "" : "none";
+      });
+    });
+  });
+
+  // Solo columns
+  function buildSolo(data, id, color) {
+    const container = document.getElementById(id);
+    data.forEach(item => {
+      const div = document.createElement("div");
+      div.className = "ap-solo-item";
+      div.style.borderLeftColor = color;
+      div.innerHTML =
+        '<div class="ap-solo-topic">' + item.topic + '</div>' +
+        '<div class="ap-solo-note">' + item.note + '</div>' +
+        '<span class="ap-solo-tag" style="background:' + color + '18;color:' + color + '">' + item.tag + '</span>';
+      container.appendChild(div);
+    });
+  }
+  buildSolo(SOLO_DATA.f,  "ap-solo-f",  "#3E7BFF");
+  buildSolo(SOLO_DATA.c,  "ap-solo-c",  "#FF4757");
+  buildSolo(SOLO_DATA.cl, "ap-solo-cl", "#FFA502");
+}
+</script>
 </body>
 </html>
