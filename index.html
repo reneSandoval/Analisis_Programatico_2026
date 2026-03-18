@@ -37,10 +37,26 @@
   /* Mode Switcher */
   #mode-switcher { position:fixed; top:16px; left:50%; transform:translateX(-50%); z-index:200; display:flex; flex-direction:column; align-items:center; gap:6px; pointer-events:all; }
   #mode-buttons { display:flex; gap:2px; background:rgba(13,21,32,0.9); backdrop-filter:blur(12px); border:1px solid var(--border); border-radius:10px; padding:4px; }
-  .mode-btn { font-family:var(--font-mono); font-size:10px; letter-spacing:0.1em; text-transform:uppercase; padding:8px 20px; border-radius:7px; border:none; cursor:pointer; background:transparent; color:var(--muted); transition:all 0.2s; }
+  .mode-btn { font-family:var(--font-mono); font-size:10px; letter-spacing:0.1em; text-transform:uppercase; padding:8px 20px; border-radius:7px; border:none; cursor:pointer; background:transparent; color:var(--muted); transition:all 0.2s; white-space:nowrap; }
   .mode-btn.active { background:rgba(255,255,255,0.1); color:var(--text); }
   .mode-btn:hover:not(.active) { color:var(--text); }
+  .btn-icon { display:none; }
   #mode-note { font-family:var(--font-mono); font-size:8px; letter-spacing:0.08em; color:var(--muted); text-align:center; opacity:0.7; }
+
+  /* Bottom nav on small/medium screens */
+  @media (max-width:1024px) {
+    #mode-switcher { top:auto; bottom:0; left:0; right:0; transform:none; flex-direction:column-reverse; gap:0; }
+    #mode-buttons { width:100%; border-radius:0; border:none; border-top:1px solid var(--border); background:rgba(7,11,16,0.97); backdrop-filter:blur(20px); padding:8px 6px 12px; gap:4px; justify-content:stretch; }
+    .mode-btn { flex:1; padding:8px 4px 6px; border-radius:8px; font-size:8px; letter-spacing:0.04em; display:flex; flex-direction:column; align-items:center; gap:3px; line-height:1.2; white-space:normal; text-align:center; }
+    .btn-icon { display:block; font-size:18px; line-height:1; }
+    .btn-label { display:block; }
+    .mode-btn.active { background:rgba(255,255,255,0.09); color:var(--text); }
+    #mode-note { width:100%; background:rgba(7,11,16,0.97); border-top:1px solid var(--border); padding:4px 12px; font-size:7px; opacity:0.45; }
+    #ausencias-panel { padding-top:60px; padding-bottom:90px; }
+    #stats { display:none !important; }
+    #hint { bottom:90px; }
+    #legend, #prog-legend { display:none !important; }
+  }
 
   /* Legend */
   #legend { position:fixed; top:72px; left:20px; z-index:100; display:flex; flex-direction:column; gap:6px; }
@@ -172,9 +188,9 @@
 
 <div id="mode-switcher">
   <div id="mode-buttons">
-    <button class="mode-btn active" id="btn-programas">🌐 Programas de gobierno</button>
-    <button class="mode-btn" id="btn-analisis">⚡ Análisis comparativo</button>
-    <button class="mode-btn" id="btn-ausencias">🔴 Mapa de ausencias</button>
+    <button class="mode-btn active" id="btn-programas"><span class="btn-icon">🌐</span><span class="btn-label">Programas de gobierno</span></button>
+    <button class="mode-btn" id="btn-analisis"><span class="btn-icon">⚡</span><span class="btn-label">Análisis comparativo</span></button>
+    <button class="mode-btn" id="btn-ausencias"><span class="btn-icon">🔴</span><span class="btn-label">Mapa de ausencias</span></button>
   </div>
   <div id="mode-note">Más programas se irán agregando a medida que los candidatos los publiquen</div>
 </div>
@@ -699,7 +715,7 @@ Graph.linkDirectionalParticles(0);
         <div class="ap-ref-item"><div class="ap-ref-label">Temas técnicamente complejos</div><div class="ap-ref-text">La <strong>ciberseguridad</strong>, la <strong>regulación de IA</strong> y los <strong>compromisos COP</strong> requieren expertise que pocos equipos de campaña tienen o comunican en lenguaje electoral.</div></div>
         <div class="ap-ref-item"><div class="ap-ref-label">Temas sin lobby visible</div><div class="ap-ref-text">Los <strong>páramos</strong>, los <strong>océanos</strong> y el <strong>envejecimiento demográfico</strong> no tienen organizaciones poderosas presionando. Sin presión, sin propuesta.</div></div>
         <div class="ap-ref-item"><div class="ap-ref-label">El consenso silencioso</div><div class="ap-ref-text">Que los <strong>tres</strong> ignoren los TLC, la deuda externa y el sistema electoral sugiere un acuerdo tácito: hay temas que ningún candidato quiere tocar porque no tienen respuesta políticamente rentable.</div></div>
-        <div class="ap-ref-item"><div class="ap-ref-label">Lo urgente vs. lo importante</div><div class="ap-ref-text">Colombia tiene el <strong>50% de los páramos del mundo</strong> y ningún candidato los menciona. Tiene una deuda pública del <strong>~55% del PIB</strong> y nadie habla de ella.</div></div>
+        <div class="ap-ref-item"><div class="ap-ref-label">Lo urgente vs. lo importante</div><div class="ap-ref-text">Colombia tiene el <strong>50% de los páramos del mundo</strong> y ningún candidato los menciona. Tiene una deuda pública que supera el <strong>60% del PIB</strong> y nadie habla de ella.</div></div>
         <div class="ap-ref-item"><div class="ap-ref-label">La democracia que se gobierna sola</div><div class="ap-ref-text">Ninguno habla de reforma al <strong>sistema electoral</strong>. La arquitectura del poder político queda intacta en los tres programas.</div></div>
       </div>
     </div>
@@ -710,11 +726,11 @@ Graph.linkDirectionalParticles(0);
 
 <script>
 const AUSENCIAS_DATA = [
-  { name:"Deuda externa / FMI",              cat:"economia",  shock:"💸", f:0,c:0,cl:0, why:"La deuda pública supera el 55% del PIB. Ningún candidato habla de negociación o condiciones con el FMI." },
+  { name:"Deuda externa / FMI",              cat:"economia",  shock:"💸", f:0,c:0,cl:0, why:"La deuda pública supera el 60% del PIB y sigue creciendo. Ningún candidato habla de sostenibilidad fiscal, negociación con el FMI ni regla fiscal." },
   { name:"TLC y libre comercio",             cat:"economia",  shock:"🤝", f:0,c:0,cl:0, why:"Más de 15 tratados vigentes. Ningún programa los evalúa ni propone renegociar." },
   { name:"Criptomonedas y activos digitales",cat:"economia",  shock:"₿",  f:0,c:0,cl:0, why:"Colombia es el 2do país de LatAm en adopción cripto. Ningún candidato tiene postura regulatoria." },
   { name:"Envejecimiento demográfico",       cat:"social",    shock:"👴", f:0,c:0,cl:0, why:"En 20 años, 1 de 4 colombianos tendrá más de 60. Nadie lo menciona como reto estructural." },
-  { name:"Nutrición y obesidad",             cat:"social",    shock:"🍔", f:0,c:0,cl:0, why:"La obesidad afecta al 37% de adultos colombianos. El etiquetado y ultraprocesados están ausentes." },
+  { name:"Nutrición y obesidad",             cat:"social",    shock:"🍔", f:0,c:0,cl:0, why:"La obesidad afecta al 37% de adultos colombianos. Aunque la Ley de Comida Chatarra (2021) ya obliga el etiquetado, ningún candidato tiene propuestas de cumplimiento, educación nutricional ni estrategia de salud preventiva." },
   { name:"Páramos y fuentes de agua",        cat:"ambiente",  shock:"🏔️", f:0,c:0,cl:0, why:"Colombia alberga el 50% de los páramos del mundo. Son la fuente de agua de millones. Nadie los nombra." },
   { name:"Océanos y pesca industrial",       cat:"ambiente",  shock:"🌊", f:0,c:0,cl:0, why:"Dos océanos y una Zona Económica Exclusiva enorme. La soberanía marítima es invisible." },
   { name:"Gran minería a cielo abierto",     cat:"ambiente",  shock:"⛏️", f:0,c:0,cl:0, why:"Proyectos como El Cerrejón generan conflictos enormes. Nadie propone una política minera integral." },
@@ -729,7 +745,7 @@ const AUSENCIAS_DATA = [
   { name:"Brecha digital rural",             cat:"gobernanza",shock:"📡", f:0,c:0,cl:0, why:"70% de municipios rurales sin conectividad real. Todos hablan de digitalización sin infraestructura." },
   { name:"Drogas recreativas (urbano)",      cat:"social",    shock:"💊", f:0,c:0,cl:0, why:"El consumo urbano de drogas es una crisis de salud pública sin política de reducción de daño." },
   { name:"Patrimonio arqueológico",          cat:"social",    shock:"🏺", f:0,c:0,cl:0, why:"La huaquería destruye yacimientos únicos. El ICANH está desfinanciado. Nadie lo menciona." },
-  { name:"Idiomas nativos",                  cat:"social",    shock:"🗣️", f:0,c:0,cl:0, why:"65 lenguas nativas en riesgo de extinción. La revitalización lingüística no es agenda de nadie." },
+  { name:"Idiomas nativos",                  cat:"social",    shock:"🗣️", f:0,c:0,cl:0, why:"Colombia tiene 65 lenguas indígenas; más de 30 están en riesgo de extinción según la UNESCO. La revitalización lingüística no es agenda de ningún candidato." },
   { name:"Agua subterránea / acuíferos",     cat:"ambiente",  shock:"💧", f:0,c:0,cl:0, why:"Los acuíferos son reserva estratégica. Su sobreexplotación y contaminación no son agenda." },
   { name:"Mercurio en minería ilegal",       cat:"ambiente",  shock:"☠️", f:1,c:1,cl:0, why:"Colombia es el mayor emisor per cápita de mercurio por minería ilegal de oro." },
 ];
