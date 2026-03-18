@@ -83,6 +83,80 @@
   @keyframes pulse { 0%,100%{opacity:0.4} 50%{opacity:0.9} }
 
   #graph-container { position:fixed; inset:0; }
+
+  /* ── AUSENCIAS PANEL ── */
+  #ausencias-panel {
+    display: none;
+    position: fixed;
+    inset: 0;
+    overflow-y: auto;
+    background: #070B10;
+    z-index: 50;
+    padding-top: 80px;
+  }
+  #ausencias-panel.visible { display: block; }
+
+  /* styles scoped inside panel */
+  #ausencias-panel .ap-header { padding: 40px 48px 0; max-width: 1200px; margin: 0 auto; }
+  #ausencias-panel .ap-kicker { font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+  #ausencias-panel .ap-title  { font-family: var(--font-disp); font-size: clamp(40px,6vw,80px); line-height: 0.9; letter-spacing: 0.02em; margin-bottom: 14px; }
+  #ausencias-panel .ap-accent { color: #FF2D55; }
+  #ausencias-panel .ap-sub   { font-size: 13px; color: var(--muted); line-height: 1.75; max-width: 600px; margin-bottom: 28px; }
+  #ausencias-panel .ap-leg-row { display: flex; gap: 24px; flex-wrap: wrap; margin-bottom: 40px; }
+  #ausencias-panel .ap-leg { display: flex; align-items: center; gap: 9px; font-size: 11px; font-weight: 600; }
+  #ausencias-panel .ap-leg-sq { width: 11px; height: 11px; border-radius: 2px; flex-shrink: 0; }
+
+  #ausencias-panel .ap-bignums { max-width: 1200px; margin: 0 auto 40px; padding: 0 48px; display: grid; grid-template-columns: repeat(3,1fr); gap: 2px; background: var(--border); }
+  #ausencias-panel .ap-bn { background: var(--surface); padding: 22px 26px; }
+  #ausencias-panel .ap-bn-num { font-family: var(--font-disp); font-size: 52px; line-height: 1; margin-bottom: 4px; }
+  #ausencias-panel .ap-bn-label { font-size: 11px; font-weight: 600; margin-bottom: 4px; }
+  #ausencias-panel .ap-bn-desc { font-size: 10px; color: var(--muted); line-height: 1.5; }
+
+  #ausencias-panel .ap-main { max-width: 1200px; margin: 0 auto; padding: 0 48px; }
+  #ausencias-panel .ap-sec { font-family: var(--font-mono); font-size: 8px; letter-spacing: 0.16em; text-transform: uppercase; margin-bottom: 16px; display: flex; align-items: center; gap: 12px; }
+  #ausencias-panel .ap-sec-line { flex: 1; height: 1px; background: var(--border); }
+  #ausencias-panel .ap-tabs { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 18px; }
+  #ausencias-panel .ap-tab { font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.08em; text-transform: uppercase; padding: 6px 14px; border-radius: 20px; border: 1px solid var(--border); cursor: pointer; background: transparent; color: var(--muted); transition: all 0.2s; }
+  #ausencias-panel .ap-tab:hover, #ausencias-panel .ap-tab.active { background: rgba(255,255,255,0.08); color: var(--text); border-color: rgba(255,255,255,0.2); }
+
+  #ausencias-panel .ap-grid { display: grid; grid-template-columns: repeat(auto-fill,minmax(190px,1fr)); gap: 10px; margin-bottom: 48px; }
+  #ausencias-panel .ap-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 15px; cursor: pointer; transition: all 0.2s; position: relative; }
+  #ausencias-panel .ap-card:hover { border-color: rgba(255,45,85,0.4); transform: translateY(-2px); }
+  #ausencias-panel .ap-card.nadie { border-left: 3px solid #FF2D55; }
+  #ausencias-panel .ap-card.dos   { border-left: 3px solid #34C759; }
+  #ausencias-panel .ap-card-status { font-family: var(--font-mono); font-size: 7px; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 6px; }
+  #ausencias-panel .ap-card-name { font-size: 12px; font-weight: 700; line-height: 1.3; margin-bottom: 7px; }
+  #ausencias-panel .ap-card-why { font-size: 10px; color: var(--muted); line-height: 1.5; }
+  #ausencias-panel .ap-card-shock { position: absolute; top: 10px; right: 12px; font-size: 15px; }
+  #ausencias-panel .ap-dots { display: flex; gap: 4px; margin-top: 10px; }
+  #ausencias-panel .ap-dot { width: 7px; height: 7px; border-radius: 50%; }
+  #ausencias-panel .ap-dot.f  { background: #3E7BFF; }
+  #ausencias-panel .ap-dot.c  { background: #FF4757; }
+  #ausencias-panel .ap-dot.cl { background: #FFA502; }
+  #ausencias-panel .ap-dot.off { background: rgba(255,255,255,0.1); }
+
+  #ausencias-panel .ap-solo-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; margin-bottom: 48px; }
+  @media(max-width:700px){ #ausencias-panel .ap-solo-grid { grid-template-columns:1fr; } }
+  #ausencias-panel .ap-solo-head { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
+  #ausencias-panel .ap-solo-dot { width: 10px; height: 10px; border-radius: 50%; }
+  #ausencias-panel .ap-solo-name { font-size: 12px; font-weight: 700; }
+  #ausencias-panel .ap-solo-item { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid transparent; border-radius: 8px; padding: 11px 13px; margin-bottom: 8px; }
+  #ausencias-panel .ap-solo-topic { font-size: 11px; font-weight: 700; margin-bottom: 4px; }
+  #ausencias-panel .ap-solo-note { font-size: 10px; color: var(--muted); line-height: 1.5; }
+  #ausencias-panel .ap-solo-tag { display: inline-block; margin-top: 6px; font-family: var(--font-mono); font-size: 7px; letter-spacing: 0.08em; text-transform: uppercase; padding: 2px 8px; border-radius: 20px; }
+
+  #ausencias-panel .ap-reflection { max-width: 1200px; margin: 0 auto 48px; padding: 0 48px; }
+  #ausencias-panel .ap-ref-card { background: var(--surface); border: 1px solid rgba(255,45,85,0.2); border-radius: 12px; padding: 26px 30px; border-top: 3px solid #FF2D55; }
+  #ausencias-panel .ap-ref-kicker { font-family: var(--font-mono); font-size: 8px; letter-spacing: 0.14em; text-transform: uppercase; color: #FF2D55; margin-bottom: 10px; }
+  #ausencias-panel .ap-ref-title { font-family: var(--font-disp); font-size: 26px; margin-bottom: 16px; color: #FF2D55; }
+  #ausencias-panel .ap-ref-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 18px; }
+  @media(max-width:700px){ #ausencias-panel .ap-ref-grid { grid-template-columns:1fr; } }
+  #ausencias-panel .ap-ref-item { padding: 13px 0; border-top: 1px solid var(--border); }
+  #ausencias-panel .ap-ref-label { font-family: var(--font-mono); font-size: 8px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+  #ausencias-panel .ap-ref-text { font-size: 11px; line-height: 1.65; color: var(--text); }
+
+  #ausencias-panel .ap-footer { text-align: center; padding: 16px; font-family: var(--font-mono); font-size: 8px; color: var(--muted); letter-spacing: 0.1em; }
+
 </style>
 </head>
 <body>
@@ -100,6 +174,7 @@
   <div id="mode-buttons">
     <button class="mode-btn active" id="btn-programas">🌐 Programas de gobierno</button>
     <button class="mode-btn" id="btn-analisis">⚡ Análisis comparativo</button>
+    <button class="mode-btn" id="btn-ausencias">🔴 Mapa de ausencias</button>
   </div>
   <div id="mode-note">Más programas se irán agregando a medida que los candidatos los publiquen</div>
 </div>
@@ -357,11 +432,36 @@ updateProgStats();
 // ═══ MODE SWITCH ═══
 document.getElementById("btn-analisis").addEventListener("click", () => switchMode("analisis"));
 document.getElementById("btn-programas").addEventListener("click", () => switchMode("programas"));
+document.getElementById("btn-ausencias").addEventListener("click", () => switchMode("ausencias"));
 
 function switchMode(mode) {
   currentMode = mode;
   document.getElementById("btn-analisis").classList.toggle("active", mode==="analisis");
   document.getElementById("btn-programas").classList.toggle("active", mode==="programas");
+  document.getElementById("btn-ausencias").classList.toggle("active", mode==="ausencias");
+
+  // Show/hide ausencias panel
+  const ausPanel = document.getElementById("ausencias-panel");
+  const graphContainer = document.getElementById("graph-container");
+  const statsEl = document.getElementById("stats");
+  const hintEl  = document.getElementById("hint");
+
+  if (mode === "ausencias") {
+    ausPanel.classList.add("visible");
+    graphContainer.style.display = "none";
+    statsEl.style.display = "none";
+    if(hintEl) hintEl.style.display = "none";
+    document.getElementById("legend").style.display = "none";
+    document.getElementById("prog-legend").style.display = "none";
+    document.getElementById("header-title").textContent = "Mapa de ausencias";
+    renderAusencias();
+    return;
+  }
+
+  ausPanel.classList.remove("visible");
+  graphContainer.style.display = "";
+  statsEl.style.display = "";
+
   document.getElementById("legend").style.display = mode==="analisis" ? "flex" : "none";
   document.getElementById("prog-legend").style.display = mode==="programas" ? "flex" : "none";
   document.getElementById("header-title").textContent = mode==="analisis"
@@ -549,5 +649,64 @@ document.addEventListener("click", () => {
 Graph.linkDirectionalParticles(0);
 
 </script>
+
+<!-- ═══ AUSENCIAS PANEL ═══ -->
+<div id="ausencias-panel">
+
+  <div class="ap-header">
+    <div class="ap-kicker">Análisis programático · Colombia 2026</div>
+    <div class="ap-title">El mapa<br>de <span class="ap-accent">ausencias</span></div>
+    <div class="ap-sub">Lo que no se dice a veces es más revelador que lo que se dice. Este análisis identifica algunos de los temas importantes para Colombia que ningún candidato — o solo uno — menciona en su programa de gobierno.</div>
+    <div class="ap-leg-row">
+      <div class="ap-leg"><div class="ap-leg-sq" style="background:#FF2D55"></div>Ningún candidato lo menciona</div>
+      <div class="ap-leg"><div class="ap-leg-sq" style="background:#FF9F0A"></div>Solo un candidato lo menciona</div>
+      <div class="ap-leg"><div class="ap-leg-sq" style="background:#34C759"></div>Solo dos candidatos lo mencionan</div>
+    </div>
+  </div>
+
+  <div class="ap-bignums">
+    <div class="ap-bn"><div class="ap-bn-num" style="color:#FF2D55">22</div><div class="ap-bn-label">Temas que nadie menciona</div><div class="ap-bn-desc">Problemas reales y urgentes — completamente ausentes de los tres programas.</div></div>
+    <div class="ap-bn"><div class="ap-bn-num" style="color:#FF9F0A">13</div><div class="ap-bn-label">Temas que menciona solo uno</div><div class="ap-bn-desc">Un candidato los ve. Los otros dos actúan como si no existieran.</div></div>
+    <div class="ap-bn"><div class="ap-bn-num" style="color:#34C759">4</div><div class="ap-bn-label">Temas que mencionan dos de tres</div><div class="ap-bn-desc">Hay consenso parcial, pero uno los ignora completamente.</div></div>
+  </div>
+
+  <div class="ap-main">
+    <div class="ap-sec"><span style="color:#FF2D55">● Silencio total — ningún candidato lo menciona</span><div class="ap-sec-line"></div></div>
+    <div class="ap-tabs" id="ap-tabs">
+      <button class="ap-tab active" data-cat="all">Todos</button>
+      <button class="ap-tab" data-cat="economia">Economía</button>
+      <button class="ap-tab" data-cat="ambiente">Ambiente</button>
+      <button class="ap-tab" data-cat="gobernanza">Gobernanza</button>
+      <button class="ap-tab" data-cat="social">Social</button>
+      <button class="ap-tab" data-cat="global">Global</button>
+    </div>
+    <div class="ap-grid" id="ap-grid"></div>
+
+    <div class="ap-sec" style="margin-top:8px"><span style="color:#FF9F0A">● Un solo candidato lo menciona</span><div class="ap-sec-line"></div></div>
+    <div class="ap-solo-grid">
+      <div><div class="ap-solo-head"><div class="ap-solo-dot" style="background:#3E7BFF"></div><div class="ap-solo-name">Solo Fajardo</div></div><div id="ap-solo-f"></div></div>
+      <div><div class="ap-solo-head"><div class="ap-solo-dot" style="background:#FF4757"></div><div class="ap-solo-name">Solo Cepeda</div></div><div id="ap-solo-c"></div></div>
+      <div><div class="ap-solo-head"><div class="ap-solo-dot" style="background:#FFA502"></div><div class="ap-solo-name">Solo Claudia</div></div><div id="ap-solo-cl"></div></div>
+    </div>
+  </div>
+
+  <div class="ap-reflection">
+    <div class="ap-ref-card">
+      <div class="ap-ref-kicker">La pregunta que incomoda</div>
+      <div class="ap-ref-title">¿Por qué el silencio?</div>
+      <div class="ap-ref-grid">
+        <div class="ap-ref-item"><div class="ap-ref-label">Temas que dan votos en contra</div><div class="ap-ref-text">Hablar de la <strong>deuda externa</strong>, los <strong>TLC</strong> o la <strong>reforma electoral</strong> puede alienar votantes. El silencio es una estrategia calculada, no un olvido.</div></div>
+        <div class="ap-ref-item"><div class="ap-ref-label">Temas técnicamente complejos</div><div class="ap-ref-text">La <strong>ciberseguridad</strong>, la <strong>regulación de IA</strong> y los <strong>compromisos COP</strong> requieren expertise que pocos equipos de campaña tienen o comunican en lenguaje electoral.</div></div>
+        <div class="ap-ref-item"><div class="ap-ref-label">Temas sin lobby visible</div><div class="ap-ref-text">Los <strong>páramos</strong>, los <strong>océanos</strong> y el <strong>envejecimiento demográfico</strong> no tienen organizaciones poderosas presionando. Sin presión, sin propuesta.</div></div>
+        <div class="ap-ref-item"><div class="ap-ref-label">El consenso silencioso</div><div class="ap-ref-text">Que los <strong>tres</strong> ignoren los TLC, la deuda externa y el sistema electoral sugiere un acuerdo tácito: hay temas que ningún candidato quiere tocar porque no tienen respuesta políticamente rentable.</div></div>
+        <div class="ap-ref-item"><div class="ap-ref-label">Lo urgente vs. lo importante</div><div class="ap-ref-text">Colombia tiene el <strong>50% de los páramos del mundo</strong> y ningún candidato los menciona. Tiene una deuda pública del <strong>~55% del PIB</strong> y nadie habla de ella.</div></div>
+        <div class="ap-ref-item"><div class="ap-ref-label">La democracia que se gobierna sola</div><div class="ap-ref-text">Ninguno habla de reforma al <strong>sistema electoral</strong>. La arquitectura del poder político queda intacta en los tres programas.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ap-footer">Análisis basado en programas de gobierno oficiales · Colombia 2026 · Fajardo 163 propuestas · Cepeda 71 · Claudia López 51</div>
+</div>
+
 </body>
 </html>
