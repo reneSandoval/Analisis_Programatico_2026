@@ -123,6 +123,11 @@
   #ausencias-panel .ap-leg-sq { width: 11px; height: 11px; border-radius: 2px; flex-shrink: 0; }
 
   #ausencias-panel .ap-bignums { max-width: 1200px; margin: 0 auto 40px; padding: 0 48px; display: grid; grid-template-columns: repeat(3,1fr); gap: 2px; background: var(--border); }
+  @media(max-width:1024px){ #ausencias-panel .ap-bignums { grid-template-columns:1fr; padding:0 20px; gap:4px; } 
+  #ausencias-panel .ap-bn { text-align:center; } 
+  #ausencias-panel .ap-header { padding:24px 20px 0; } 
+  #ausencias-panel .ap-main { padding:0 20px; } 
+  #ausencias-panel .ap-reflection { padding:0 20px; } }
   #ausencias-panel .ap-bn { background: var(--surface); padding: 22px 26px; }
   #ausencias-panel .ap-bn-num { font-family: var(--font-disp); font-size: 52px; line-height: 1; margin-bottom: 4px; }
   #ausencias-panel .ap-bn-label { font-size: 11px; font-weight: 600; margin-bottom: 4px; }
